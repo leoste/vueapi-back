@@ -10,4 +10,8 @@ class Post extends Model
       'title',
       'content',
     ];
+
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
 }
