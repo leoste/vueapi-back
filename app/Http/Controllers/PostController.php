@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -36,7 +37,10 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $post = new Post($request->all());
+        $post->user()->associate(User::find(1));
+        $post->save();
     }
 
     /**
