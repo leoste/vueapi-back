@@ -17,7 +17,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('posts', 'PostController@index');
 Route::post('posts/{post}', 'PostController@update');
 Route::delete('posts/{post}', 'PostController@destroy');
 Route::put('posts', 'PostController@store');
+
+Route::post('/register', 'AuthController@register');
+
+Route::post('/login', 'AuthController@authenticate');
+
+Route::group(['middleware' => ['jwt.verify']], function() {
+    Route::get('user', 'AuthController@getAuthenticatedUser');
+    Route::get('posts', 'PostController@index');
+//    Route::get('closed', 'DataController@closed');
+});
