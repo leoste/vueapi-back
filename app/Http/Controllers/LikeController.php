@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
-use App\User;
+use App\Like;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class PostController extends Controller
+class LikeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('images')->paginate(10);
-        var_dump($posts[0]->toArray());
-        return $posts;
+        //
     }
 
     /**
@@ -39,19 +35,27 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
-        $post = new Post($request->all());
-        $post->user()->associate(User::find(1));
-        $post->save();
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Post  $post
+     * @param  \App\Like  $like
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(Like $like)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Like  $like
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Like $like)
     {
         //
     }
@@ -60,24 +64,22 @@ class PostController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Post  $post
+     * @param  \App\Like  $like
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Like $like)
     {
-        $post->fill($request->all());
-        $post->save();
-        return $post;
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Post  $post
+     * @param  \App\Like  $like
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Like $like)
     {
-        $post->delete();
+        //
     }
 }
