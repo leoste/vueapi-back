@@ -72,4 +72,14 @@ class AuthController extends Controller
 
         return response()->json(compact('user'));
     }
+
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refresh()
+    {
+        return response()->json(['token' => auth()->refresh()]);
+    }
 }

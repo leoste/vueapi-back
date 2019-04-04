@@ -24,10 +24,11 @@ Route::put('posts', 'PostController@store');
 Route::post('/register', 'AuthController@register');
 
 Route::post('/login', 'AuthController@authenticate');
-
+Route::get('/refresh', 'AuthController@refresh');
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user', 'AuthController@getAuthenticatedUser');
     Route::get('posts', 'PostController@index');
+    Route::get('posts/{post}', 'PostController@show');
     Route::get('posts/{id}/like', 'LikeController@likePost');
     Route::get('posts/{id}/dislike', 'LikeController@dislikePost');
     Route::get('posts/{id}/unlike', 'LikeController@unlikePost');

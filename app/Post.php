@@ -18,7 +18,7 @@ class Post extends Model
         'likes_count',
         'dislikes_count'
     ];
-
+    protected $with = ['images'];
     public function images(){
         return $this->hasMany(Image::class);
     }
