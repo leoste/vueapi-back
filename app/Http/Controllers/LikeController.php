@@ -3,83 +3,51 @@
 namespace App\Http\Controllers;
 
 use App\Like;
+use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LikeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+
+    public function undislikePost($id){
+        return $this->removeLike($id);
+    }
+    public function unlikePost($id){
+        return $this->removeLike($id);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    private function removeLike($id){
+        $user = Auth::user();
+        $post = Post::where('id', $id)->with('images')->first();
+        $like = $post->likes()->where('user_id', $user->id)->first();
+        $like->delete();
+        return $post;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function likePost($id){
+        return $this->saveLike(1, $id);
+    }
+    public function dislikePost($id){
+        return $this->saveLike(-1, $id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Like  $like
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Like $like)
-    {
-        //
+    private function saveLike($value, $id){
+        $user = Auth::user();
+        $post = Post::where('id', $id)->with('images')->first();
+        if($user && $post){
+            $like = $user->likes()->where('post_id', $id)->first();
+            if($like){
+                $like->value = $value;
+            } else {
+                $like = new Like(['value' => $value]);
+                $like->post()->associate($post);
+                $like->user()->associate($user);
+            }
+            $like->save();
+        }
+        return $post;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Like  $like
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Like $like)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Like  $like
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Like $like)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Like  $like
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Like $like)
-    {
-        //
-    }
 }

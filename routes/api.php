@@ -28,5 +28,9 @@ Route::post('/login', 'AuthController@authenticate');
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user', 'AuthController@getAuthenticatedUser');
     Route::get('posts', 'PostController@index');
+    Route::get('posts/{id}/like', 'LikeController@likePost');
+    Route::get('posts/{id}/dislike', 'LikeController@dislikePost');
+    Route::get('posts/{id}/unlike', 'LikeController@unlikePost');
+    Route::get('posts/{id}/undislike', 'LikeController@undislikePost');
 //    Route::get('closed', 'DataController@closed');
 });
