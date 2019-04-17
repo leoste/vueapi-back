@@ -33,5 +33,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('posts/{id}/dislike', 'LikeController@dislikePost');
     Route::get('posts/{id}/unlike', 'LikeController@unlikePost');
     Route::get('posts/{id}/undislike', 'LikeController@undislikePost');
+    Route::post('posts/{post}/comment', 'CommentController@store');
+    Route::get('posts/{post}/comments', 'CommentController@poll');
 //    Route::get('closed', 'DataController@closed');
 });
