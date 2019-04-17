@@ -11,8 +11,14 @@ class Post extends Model
       'title',
       'content',
     ];
-    protected $appends = ['is_liked'];
-
+    protected $appends = [
+        'is_liked',
+        'is_disliked',
+        'score',
+        'likes_count',
+        'dislikes_count'
+    ];
+    protected $with = ['images'];
     public function images(){
         return $this->hasMany(Image::class);
     }
@@ -31,5 +37,24 @@ class Post extends Model
         }
         return false;
     }
-
+    public function getIsDislikedAttribute()
+    {
+        $user = Auth::user();
+        if($user){
+            return $this->likes()->where('user_id', $user->id)->where('value', -1)->exists();
+        }
+        return false;
+    }
+    public function getScoreAttribute()
+    {
+        return (int) $this->likes()->select('value')->sum('value');
+    }
+    public function getLikesCountAttribute()
+    {
+        return $this->likes()->where('value', 1)->count();
+    }
+    public function getDislikesCountAttribute()
+    {
+        return $this->likes()->where('value', -1)->count();
+    }
 }

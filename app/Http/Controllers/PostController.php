@@ -17,7 +17,6 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with('images')->paginate(10);
-        var_dump($posts[0]->toArray());
         return $posts;
     }
 
@@ -53,7 +52,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return $post;
     }
 
     /**
