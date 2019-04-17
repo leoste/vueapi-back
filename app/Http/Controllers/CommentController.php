@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Events\NewComment;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -42,6 +43,7 @@ class CommentController extends Controller
         $comment->user()->associate(\Auth::user());
         $comment->post()->associate($post);
         $comment->save();
+        broadcast(new NewComment($comment))->toOthers();
         return $comment->post()->with('comments')->first();
     }
 
