@@ -16,7 +16,8 @@ class Post extends Model
         'is_disliked',
         'score',
         'likes_count',
-        'dislikes_count'
+        'dislikes_count',
+        'comments_count'
     ];
     protected $with = ['images'];
     public function images(){
@@ -28,7 +29,9 @@ class Post extends Model
     public function likes(){
         return $this->hasMany(Like::class);
     }
-
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
     public function getIsLikedAttribute()
     {
         $user = Auth::user();
@@ -56,5 +59,9 @@ class Post extends Model
     public function getDislikesCountAttribute()
     {
         return $this->likes()->where('value', -1)->count();
+    }
+    public function getCommentsCountAttribute()
+    {
+        return $this->comments()->count();
     }
 }

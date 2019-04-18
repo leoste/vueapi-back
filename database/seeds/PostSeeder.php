@@ -12,7 +12,7 @@ class PostSeeder extends Seeder
     public function run()
     {
         \App\User::all()->each(function ($user){
-            factory(App\Post::class, 20)->create(['user_id' => $user->id]);
+            factory(App\Post::class, 5)->create(['user_id' => $user->id]);
         });
     }
 }
